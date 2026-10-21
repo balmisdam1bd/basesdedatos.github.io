@@ -1,9 +1,9 @@
 <!DOCTYPE html><html><head>
-      <title>UD1 Título Reducido</title>
+      <title>Apuntes</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.38/dist/katex.min.css">
       
       
       
@@ -21,23 +21,38 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
   font-family: 'Catamaran';
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/catamaran/v27/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/catamaran/v28/o-0bIpQoyXQa2RxT7-5B6Ryxs2E_6n1iPHjd5a7dvg.ttf) format('truetype');
 }
-@page a4landscape {
-  size: A4 landscape;
-  margin: 1cm;
+.markdown-preview.markdown-preview .definicion {
+  background-color: #e0c2cd;
+  border: 2px solid #969696;
+  padding: 15px;
+  padding-bottom: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
 }
-@page a4portrait {
-  size: A4 portrait;
-  margin: 1cm 1cm 2.5cm 1cm;
+.markdown-preview.markdown-preview .caso_estudio {
+  background-color: #f5f5f5;
+  border: 2px solid #969696;
+  padding: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
 }
-.markdown-preview.markdown-preview .landscape {
-  page: a4landscape;
+.markdown-preview.markdown-preview .ejercicio {
+  background-color: #f5faf5;
+  border: 2px solid #969b96;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 7px 0 rgba(78, 120, 158, 0.1);
 }
-.markdown-preview.markdown-preview .portrait {
-  page: a4portrait;
-}
-.markdown-preview.markdown-preview .box_bg_lightgray {
+.markdown-preview.markdown-preview .box_bg_lightgrey {
   background-color: #f5f5f5;
   border: 2px solid #969696;
   padding: 15px;
@@ -179,44 +194,131 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 }
 
       </style>
-      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
-  const configureMermaidIconPacks = () => {
-    window["mermaid"].registerIconPacks([
-      {
-        name: "logos",
-        loader: () =>
-          fetch("https://unpkg.com/@iconify-json/logos@1/icons.json").then(
-            (res) => res.json()
-          ),
-      },
-    ]);
-  };
-
-  if (document.readyState !== 'loading') {
-    configureMermaidIconPacks();
-  } else {
-    document.addEventListener("DOMContentLoaded", () => {
-      configureMermaidIconPacks();
-    });
-  }
-</script></head><body for="html-export">
-    
-    
+      <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script>
+    </head>
+    <body for="html-export">
       <div class="crossnote markdown-preview  ">
       
-<h1 id="ud1-título-reducido">UD1 Título Reducido </h1>
-<p><a href="./u1.pdf">Descargar estos apuntes</a></p>
-<h2 id="índice">Índice </h2>
-
 <div class="md-toc">
-<div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:18px">
-          <a href="#introducción" class="md-toc-link">
-            <p>Introducción</p>
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#bases-de-datos-y-manipulación-de-datos-en-mongodb" class="md-toc-link"><p>Bases de datos y manipulación de datos en MongoDB</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-1" class="md-toc-link">
+            <p>✅ Ejercicio 1</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-2" class="md-toc-link">
+            <p>✅ Ejercicio 2</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-3" class="md-toc-link">
+            <p>✅ Ejercicio 3</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-4" class="md-toc-link">
+            <p>✅ Ejercicio 4</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-5" class="md-toc-link">
+            <p>✅ Ejercicio 5</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-6" class="md-toc-link">
+            <p>✅ Ejercicio 6</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-7" class="md-toc-link">
+            <p>✅ Ejercicio 7</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-8" class="md-toc-link">
+            <p>✅ Ejercicio 8</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-9" class="md-toc-link">
+            <p>✅ Ejercicio 9</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#white_check_mark-ejercicio-10" class="md-toc-link">
+            <p>✅ Ejercicio 10</p>
 
           </a></div>
+        </div>
+      </details>
+    
 </div>
-<div style="page-break-after:always;"></div>
-<h2 id="introducción">Introducción </h2>
+<h3 id="bases-de-datos-y-manipulación-de-datos-en-mongodb">Bases de datos y manipulación de datos en MongoDB </h3>
+<p>La empresa <strong>Frutas y Verduras S.L.</strong> ha decidido migrar su sistema de gestión de productos a MongoDB. Para ello, se han planteado una serie de ejercicios prácticos que consisten en traducir sentencias SQL a su equivalente en MongoDB.</p>
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-1">✅ Ejercicio 1 </h4>
+<p>Crear la base de datos <code>tienda</code> teniendo en cuenta que en SQL se creó de la siguiente manera:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-DATABASE">DATABASE</span> tienda<span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-2">✅ Ejercicio 2 </h4>
+<p>Seleccionar la base de datos <code>tienda</code> para trabajar con ella, equivalente a la siguiente sentencia SQL:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-USE">USE</span> tienda<span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-3">✅ Ejercicio 3 </h4>
+<p>Crear el objeto equivalente a la tabla <code>productos</code> con los campos <code>id</code>, <code>descripcion</code> y <code>precio</code>, teniendo en cuenta que en SQL se creó de la siguiente manera:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> productos <span class="token punctuation">(</span>
+    id <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span><span class="token punctuation">,</span>
+    descripcion <span class="token keyword keyword-VARCHAR">VARCHAR</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    precio <span class="token keyword keyword-DECIMAL">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-4">✅ Ejercicio 4 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL de inserción de un producto:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> productos <span class="token punctuation">(</span>id<span class="token punctuation">,</span> descripcion<span class="token punctuation">,</span> precio<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span> <span class="token punctuation">(</span><span class="token number">101</span><span class="token punctuation">,</span> <span class="token string">'Manzana royal'</span><span class="token punctuation">,</span> <span class="token number">1.39</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-5">✅ Ejercicio 5 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL de inserción de varios productos:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> productos <span class="token punctuation">(</span>id<span class="token punctuation">,</span> descripcion<span class="token punctuation">,</span> precio<span class="token punctuation">)</span>
+<span class="token keyword keyword-VALUES">VALUES</span>
+<span class="token punctuation">(</span><span class="token number">102</span><span class="token punctuation">,</span> <span class="token string">'Pera blanquilla'</span><span class="token punctuation">,</span> <span class="token number">1.59</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">(</span><span class="token number">103</span><span class="token punctuation">,</span> <span class="token string">'Kiwi'</span><span class="token punctuation">,</span> <span class="token number">3.69</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-6">✅ Ejercicio 6 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL de actualización de un producto:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> productos
+<span class="token keyword keyword-SET">SET</span> precio <span class="token operator">=</span> <span class="token number">3.75</span>
+<span class="token keyword keyword-WHERE">WHERE</span> descripcion <span class="token operator">=</span> <span class="token string">'Kiwi'</span><span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-7">✅ Ejercicio 7 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL de actualización de varios productos:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-UPDATE">UPDATE</span> productos
+<span class="token keyword keyword-SET">SET</span> precio <span class="token operator">=</span> precio <span class="token operator">+</span> precio <span class="token operator">*</span> <span class="token number">10</span> <span class="token operator">/</span> <span class="token number">100</span><span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-8">✅ Ejercicio 8 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL de eliminación de un producto:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-FROM">FROM</span> productos
+<span class="token keyword keyword-WHERE">WHERE</span> id <span class="token operator">=</span> <span class="token number">102</span><span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-9">✅ Ejercicio 9 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL de eliminación de la tabla <code>productos</code>:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-TABLE">TABLE</span> productos<span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
+<div class="ejercicio">
+<h4 id="white_check_mark-ejercicio-10">✅ Ejercicio 10 </h4>
+<p>Escribe la instrucción equivalente en MongoDB a la siguiente sentencia SQL que elimina la base de datos <code>tienda</code>:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-DATABASE">DATABASE</span> tienda<span class="token punctuation">;</span>
+</code></pre></div> <!-- fin ejercicio -->
 
       </div>
       
