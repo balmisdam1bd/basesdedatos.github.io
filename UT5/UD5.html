@@ -332,6 +332,28 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 </div>
 </details>
 </details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="1">
+  <a href="#transaccionesbloqueos-y-concurrencia" class="md-toc-link">Transacciones,bloqueos y concurrencia</a>
+</summary>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="2">
+  <a href="#transacciones" class="md-toc-link">Transacciones</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#transacciones-en-mariadb" class="md-toc-link">Transacciones en MariaDB</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#autocommit" class="md-toc-link">Autocommit</a>
+</div>
+</details>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#bloqueos" class="md-toc-link">Bloqueos</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#concurrencia" class="md-toc-link">Concurrencia</a>
+</div>
+</details>
 </details>
 </div>
 <h2 id="lenguaje-de-manipulación-de-datos">Lenguaje de Manipulación de Datos </h2>
@@ -362,16 +384,7 @@ descendente.</li>
 <h2 id="consultas-select-básicas">Consultas <strong><code>SELECT</code></strong> básicas </h2>
 <h3 id="consultas-con-operaciones-numéricas-y-literales">Consultas con operaciones numéricas y literales </h3>
 <p>Comenzaremos por utilizar la instrucción <strong><code>SELECT</code></strong> como si fuera una calculadora.  Para ello utilizaremos los siguientes operadores aritméticos:</p>
-<pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><p>Los siguientes ejemplos evaluan las expresiones que hay después de la cláusula <strong><code>SELECT</code></strong> y muestran el resultado por pantalla.</p>
+<p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:335px;height:221px;background:#FFFFFF;" width="335px" height="221px" viewBox="0 0 335 221" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="299.242" height="185" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="179.625" font-weight="700">Operadores aritméticos</text><rect x="26" y="48.125" width="279.242" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="88.039">Operador  </text><text x="122.93" y="64.734" fill="#000" font-size="16" textLength="72.922">Función </text><text x="30.445" y="84.859" fill="#000" font-size="16">+</text><text x="122.93" y="84.859" fill="#000" font-size="16" textLength="41.797">Suma</text><text x="30.445" y="104.984" fill="#000" font-size="16">-</text><text x="122.93" y="104.984" fill="#000" font-size="16" textLength="41.797">Resta</text><text x="30.445" y="125.109" fill="#000" font-size="16">*</text><text x="122.93" y="125.109" fill="#000" font-size="16" textLength="177.867">Producto o Multiplicación</text><text x="30.445" y="145.234" fill="#000" font-size="16">/</text><text x="122.93" y="145.234" fill="#000" font-size="16" textLength="56.016">División</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="26.672">DIV</text><text x="122.93" y="165.359" fill="#000" font-size="16" textLength="105.828">División entera</text><text x="30.445" y="185.484" fill="#000" font-size="16" textLength="69.344">MOD o %</text><text x="122.93" y="185.484" fill="#000" font-size="16" textLength="138.742">Resto de la división</text><line x1="26" y1="48.125" x2="305.242" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="305.242" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="305.242" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="305.242" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="305.242" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="305.242" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="168.875" x2="305.242" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="189" x2="305.242" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="118.484" y1="48.125" x2="118.484" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="305.242" y1="48.125" x2="305.242" y2="189" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src LOz1QW9144NtVOeFGPAqI4m2MQW8Wyr05g94uhxjQQ5mfdlexd4XimZaD5bx16-IawH68o7BL_N_hrznHwxMGLSex5OtPSgzIoiwM3o-274xuvL9De3SdY9jIelt_jDm-8oxxu_FUp62b8lQ1btuO2Dqe5ITlX8P7wKKaviyKohBfYsk8h2jHTuuGwUZwq2qwAF5ggaqEXWmlDcOBYIPbi4NZKaU7dDkI7L9Hf_zPya3InHrzQuJzRh-DxEENxZapHUAOtg_Dpn_ZLAZ-BEFVm00?--></g></svg></p><p>Los siguientes ejemplos evaluan las expresiones que hay después de la cláusula <strong><code>SELECT</code></strong> y muestran el resultado por pantalla.</p>
 <div class="admonition example">
 <p class="admonition-title">Ejemplo 1</p>
 <p>La última sentencia muestra tres columnas.</p>
@@ -492,16 +505,7 @@ Utilizando la consulta del ejemplo anterior mostrar:</p>
 <h3 id="consultas-con-selección-de-registros">Consultas con selección de registros </h3>
 <p>Para poder seleccionar registros es necesario indicar la condición que deben cumplir los campos de un registro para ser mostrado. Para ello se utiliza la sección <strong><code>WHERE</code></strong> de la instrucción SQL.<br>
 Los operadores relacionales que nos permiten comparar el valor de los campos son:</p>
-<pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><p>Veamos unos cuantos ejemplos:</p>
+<p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:480px;height:301px;background:#FFFFFF;" width="480px" height="301px" viewBox="0 0 480 301" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="444.219" height="265.5" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="186.758" font-weight="700">Operadores relacionales</text><rect x="26" y="48.125" width="424.219" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="88.039">Operador  </text><text x="138.023" y="64.734" fill="#000" font-size="16" textLength="72.922">Función </text><text x="30.445" y="84.859" fill="#000" font-size="16">=</text><text x="138.023" y="84.859" fill="#000" font-size="16" textLength="48.039">Igual a</text><text x="30.445" y="104.984" fill="#000" font-size="16">&lt;</text><text x="138.023" y="104.984" fill="#000" font-size="16" textLength="76.492">Menor que</text><text x="30.445" y="125.109" fill="#000" font-size="16">&gt;</text><text x="138.023" y="125.109" fill="#000" font-size="16" textLength="75.594">Mayor que</text><text x="30.445" y="145.234" fill="#000" font-size="16" textLength="18.688">&lt;=</text><text x="138.023" y="145.234" fill="#000" font-size="16" textLength="96.945">Menor o igual</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="18.688">&gt;=</text><text x="138.023" y="165.359" fill="#000" font-size="16" textLength="96.047">Mayor o igual</text><text x="30.445" y="185.484" fill="#000" font-size="16" textLength="34.688">LIKE</text><text x="138.023" y="185.484" fill="#000" font-size="16" textLength="307.75">Patrón que debe cumprir un campo cadena</text><text x="30.445" y="205.609" fill="#000" font-size="16" textLength="79.117">BETWEEN</text><text x="138.023" y="205.609" fill="#000" font-size="16" textLength="139.633">Intervalo de valores</text><text x="30.445" y="225.734" fill="#000" font-size="16" textLength="16">IN</text><text x="138.023" y="225.734" fill="#000" font-size="16" textLength="142.313">Conjunto de valores</text><text x="30.445" y="245.859" fill="#000" font-size="16" textLength="60.469">IS NULL</text><text x="138.023" y="245.859" fill="#000" font-size="16" textLength="53.367">Es nulo</text><text x="30.445" y="265.984" fill="#000" font-size="16" textLength="98.688">IS NOT NULL</text><text x="138.023" y="265.984" fill="#000" font-size="16" textLength="76.492">No es nulo</text><line x1="26" y1="48.125" x2="450.219" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="450.219" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="450.219" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="450.219" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="450.219" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="450.219" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="168.875" x2="450.219" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="189" x2="450.219" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="209.125" x2="450.219" y2="209.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="229.25" x2="450.219" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="249.375" x2="450.219" y2="249.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="269.5" x2="450.219" y2="269.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="269.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="133.578" y1="48.125" x2="133.578" y2="269.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="450.219" y1="48.125" x2="450.219" y2="269.5" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src PP3HIiCm58Rl-nG7l53hpLJmGjj1tLeeraxOXjTdxL6YwKbDau7I2y57yX5yaps9IQLZu4t2___VdvoaUnNSeiO6Qdf2Aqscs2p51y7vLH0SprnK6T8WU2iwiP44wxEBoUGIJdQVNwV1DOJXeYMDjTBKWIQ9bL2Cahem3AAZB9dFasJQmmY1g_MGMQx4ppTx4VGGGm_viqK925v7JjyJE_hDqk1ClOFl1quKxo45OYWFOBmd3-qYlqjTy816ksk7GshQ45IsQRNGO1agR5hbrfhuRuhRTFMOfgMVZTqNR54gLmA_-xTw9FVfJF6BPVC_N4AvBWf7f1smTUtHNQp6f5H0OtZp2m00?--></g></svg></p><p>Veamos unos cuantos ejemplos:</p>
 <div class="admonition example">
 <p class="admonition-title">Ejemplo 1</p>
 <p><strong>Buscar un registro por el valor de su clave</strong><br>
@@ -583,16 +587,7 @@ Mostrar los productos de las gamas <em>Aromáticas</em>, <em>Herramientas</em> y
 </div>
 <h3 id="consultas-con-varias-condiciones">Consultas con varias condiciones </h3>
 <p>Para poder realizar varias varias condiciones necesitamos combinarlas con operadores lógicos, que en MySQL son:</p>
-<pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><p>Veamos unos cuantos ejemplos:</p>
+<p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:225px;height:160px;background:#FFFFFF;" width="225px" height="160px" viewBox="0 0 225 160" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="189.852" height="124.625" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="150.266" font-weight="700">Operadores lógicos</text><rect x="26" y="48.125" width="169.852" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="88.039">Operador  </text><text x="122.93" y="64.734" fill="#000" font-size="16" textLength="72.922">Función </text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="33.781">AND</text><text x="122.93" y="84.859" fill="#000" font-size="16">Y</text><text x="30.445" y="104.984" fill="#000" font-size="16" textLength="24">OR</text><text x="122.93" y="104.984" fill="#000" font-size="16">O</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="33.773">NOT</text><text x="122.93" y="125.109" fill="#000" font-size="16" textLength="20.453">No</text><line x1="26" y1="48.125" x2="195.852" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="195.852" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="195.852" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="195.852" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="195.852" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="118.484" y1="48.125" x2="118.484" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="195.852" y1="48.125" x2="195.852" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src AyxEp2j8B4hCLKX9JKiipIbnoyyh2SwiIbKmDEFYKdS6IYMNf1OfPEQLPHPd9kMaAeHg6naO62jeF6ferkIoKj3IyYz8BKfCoIzABLR8ERmvFJCvlrXBYyj6sStHnSNHqQv60QP00QYbHi6jD2yvy_3cF127gqR1qSz5eKOXKW74zWy2Clt1J3__423RBr-XnXe0?--></g></svg></p><p>Veamos unos cuantos ejemplos:</p>
 <div class="admonition example">
 <p class="admonition-title">Ejemplo 1</p>
 <p><strong>Ejemplo con varias condiciones</strong><br>
@@ -616,43 +611,7 @@ Mostrar código y nombre de los Clientes que sean de la <strong><code>Ciudad</co
 </div>
 <h3 id="consultas-con-funciones">Consultas con funciones </h3>
 <p>Las funciones nos permiten realizar transformaciones de los datos para obtener información. Existen multitud de funciones que procesan diferentes tipos de datos. Las funciones predefinidas en MySQL se pueden utilizar tanto en campos calculados como en condiciones <strong><code>WHERE</code></strong>.A continuación se muestran algunas de las funciones más utilizadas agrupadas por tipos de datos. Las funciones se tratarán en mayor profundidad en la siguiente unidad.</p>
-<pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><pre class="language-text">Error: plantuml.jar file not found: ""
-
-Please download plantuml.jar from https://plantuml.com/download.  
-
-
-If you are using VSCode or coc.nvim, then please set the setting "markdown-preview-enhanced.plantumlJarPath" to the absolute path of plantuml.jar file.
-
-If you don't want to use plantuml.jar, then you can use the online plantuml server 
-by setting the setting "markdown-preview-enhanced.plantumlServer" to the URL of the online plantuml server, for example: https://kroki.io/plantuml/svg/
-</pre><div class="admonition note">
+<p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:781px;height:261px;background:#FFFFFF;" width="781px" height="261px" viewBox="0 0 781 261" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="745.727" height="225.25" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="279.242" font-weight="700">Funciones de cadenas de caracteres</text><rect x="26" y="48.125" width="725.727" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="93.367">Función   </text><text x="234.055" y="64.734" fill="#000" font-size="16" textLength="83.586">Descripción</text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="199.164">CONCAT(cad1, cad2, ...)  </text><text x="234.055" y="84.859" fill="#000" font-size="16" textLength="142.328">Concatena cadenas</text><text x="30.445" y="104.984" fill="#000" font-size="16" textLength="192.047">UPPER(cad), UCASE(cad)</text><text x="234.055" y="104.984" fill="#000" font-size="16" textLength="226.813">Pasa a mayúsculas una cadena</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="192.938">LOWER(cad), LCASE(cad)</text><text x="234.055" y="125.109" fill="#000" font-size="16" textLength="222.367">Pasa a minúsculas una cadena</text><text x="30.445" y="145.234" fill="#000" font-size="16" textLength="84.453">LTRIM(cad)</text><text x="234.055" y="145.234" fill="#000" font-size="16" textLength="365.531">Elimina de la cadena los espacios iniciales y finales</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="95.133">LEFT(cad, X)</text><text x="234.055" y="165.359" fill="#000" font-size="16" textLength="337.953">Obtiene los X primeros caracteres de la cadena</text><text x="30.445" y="185.484" fill="#000" font-size="16" textLength="105.789">RIGHT(cad, X)</text><text x="234.055" y="185.484" fill="#000" font-size="16" textLength="326.398">Obtiene los X últimos caracteres de la cadena</text><text x="30.445" y="205.609" fill="#000" font-size="16" textLength="101.352">LENGTH(cad)</text><text x="234.055" y="205.609" fill="#000" font-size="16" textLength="171.711">Longitud de una cadena</text><text x="30.445" y="225.734" fill="#000" font-size="16" textLength="176.969">REPLACE(cad, ant, pos)</text><text x="234.055" y="225.734" fill="#000" font-size="16" textLength="210.828">Obtiene una cadena tomando</text><text x="449.328" y="225.734" fill="#000" font-size="16" textLength="25.797" font-style="italic">cad</text><text x="479.57" y="225.734" fill="#000" font-size="16" textLength="183.211">como origen y cambiando</text><text x="667.227" y="225.734" fill="#000" font-size="16" textLength="22.242" font-style="italic">ant</text><text x="693.914" y="225.734" fill="#000" font-size="16" textLength="23.125">por</text><text x="721.484" y="225.734" fill="#000" font-size="16" textLength="25.797" font-style="italic">pos</text><text x="747.281" y="225.734" fill="#000" font-size="16">&nbsp;</text><line x1="26" y1="48.125" x2="751.727" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="751.727" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="751.727" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="751.727" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="751.727" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="751.727" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="168.875" x2="751.727" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="189" x2="751.727" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="209.125" x2="751.727" y2="209.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="229.25" x2="751.727" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="229.609" y1="48.125" x2="229.609" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="751.727" y1="48.125" x2="751.727" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src XP3DIWCn4CVl-nG37cphKjiA7hGKbkts0zQsz0EzfcaiWxl9iiaAbJq8FfAtNlicFecJrDOF50-1IVBx_uOP_O0oOpbBOINkMP6Odf9cXay2cfUUTnhI5pSY1vIFg76P25YSjHgD2wYyFRzKlIkerNg5vAYaqAG0pbP2iezodnMwLlFQ9xsWsms2JWcEtxrA4W2T4hf2ynmpzrXw9OJZKHZCAwHg-bROyg5UhrVtSAWaPuPw75lPo68oYQOsKVLX4GQpoDLGmeHf1WnIjjbjDIyIuejZraNZyUqn6lyMHVbdT3uTtXpmA452cPqyELA9qY1qncX1cdQ875b2Yzh0FQ6sSfgevwRruSwAnak3GWgNlOCinrJaL7wkytiBQvWE-uE_5RjjOZ3zHn57e_vyS1WcLdADfbXPxiVGqsWI1s6qxyQayI5J-clJBxnHAPCh1Mtiq4lx73l0LQf0vRWMajR0MRh40q8oXsGgjrVIkcjv_Gu0?--></g></svg></p><p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:585px;height:221px;background:#FFFFFF;" width="585px" height="221px" viewBox="0 0 585 221" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="549.125" height="185" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="267.617" font-weight="700">Funciones numéricas de un campo</text><rect x="26" y="48.125" width="529.125" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="93.367">Función   </text><text x="175.344" y="64.734" fill="#000" font-size="16" textLength="83.586">Descripción</text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="55.992">RAND()</text><text x="175.344" y="84.859" fill="#000" font-size="16" textLength="367.289">Número aleatorio decimal entre 0 y 1 (menor que 1)</text><text x="30.445" y="104.984" fill="#000" font-size="16" textLength="114.688">POW(num, exp)</text><text x="175.344" y="104.984" fill="#000" font-size="16" textLength="137.875">Obtiene la potencia</text><text x="317.664" y="104.984" fill="#000" font-size="16" textLength="31.125" font-style="italic">num</text><text x="353.234" y="104.984" fill="#000" font-size="16" textLength="69.391">elevado a</text><text x="427.07" y="104.984" fill="#000" font-size="16" textLength="25.797" font-style="italic">exp</text><text x="452.867" y="104.984" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="96.898">FLOOR(num)</text><text x="175.344" y="125.109" fill="#000" font-size="16" textLength="326.422">Obtiene la parte entera de un número decimal</text><text x="30.445" y="145.234" fill="#000" font-size="16" textLength="140.453">ROUND(num, X)  </text><text x="175.344" y="145.234" fill="#000" font-size="16" textLength="259.719">Redondea un número a X decimales</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="80.898">SIGN(num)</text><text x="175.344" y="165.359" fill="#000" font-size="16" textLength="375.336">Devuelve 1 para positivo, 0 para 0 y -1 para negativo</text><text x="30.445" y="185.484" fill="#000" font-size="16" textLength="73.797">ABS(num)</text><text x="175.344" y="185.484" fill="#000" font-size="16" textLength="280.18">Obtiene el valor absoluto de un número</text><line x1="26" y1="48.125" x2="555.125" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="555.125" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="555.125" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="555.125" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="555.125" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="555.125" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="168.875" x2="555.125" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="189" x2="555.125" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="170.898" y1="48.125" x2="170.898" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="555.125" y1="48.125" x2="555.125" y2="189" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src NP31IiD048RlUOe13wQnOglWGKiX6YA2DD9Iz3fDHXdSxCRD9gZa8FWqdhrvxPlu9Cx65gI7lVop_p_VF_KJwmejbb3G0pRAfKQx1RyHZ4-3OFzIHhaZ2wnRhdcb29O7nwFH2OG_xn-3u0oYA6rqpaPJ3Refrv-MSwmb3HeDEPQLYQ9WifV6IHB7qmxwt-ilBNQGrq52TMwvwiKkw60Upv9m01tCrjybMGEe29snR2Gqvn8La7QMO0IlC8Qm96qiF3T2B2u9kCtkGY4P0hrKFYTREIPDe10guqZM8qnuAbycHpm5KjHY8MkyA9PUz3dfJPRDVT9k25f7de4iRdhg3UeMiE-HBQL83t8_-AiwfyBeWl2_1U5-QvCBUkFY-cgsNPjGsv1gfPjVwmlKxBWrGsdV2_u8XvkXfaVqmpublbZiifE25fKS2rUrKOqpE_JT-Iy0?--></g></svg></p><p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:821px;height:221px;background:#FFFFFF;" width="821px" height="221px" viewBox="0 0 821 221" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="785.273" height="185" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="261.391" font-weight="700">Funciones de fechas de un campo</text><rect x="26" y="48.125" width="765.273" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="93.367">Función   </text><text x="216.25" y="64.734" fill="#000" font-size="16" textLength="83.586">Descripción</text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="102.25">YEAR(campo)</text><text x="216.25" y="84.859" fill="#000" font-size="16" textLength="363.781">Muestra el año del valor de un campo de tipo fecha</text><text x="30.445" y="104.984" fill="#000" font-size="16" textLength="117.336">MONTH(campo)</text><text x="216.25" y="104.984" fill="#000" font-size="16" textLength="367.313">Muestra el mes del valor de un campo de tipo fecha</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="91.578">DAY(campo)</text><text x="216.25" y="125.109" fill="#000" font-size="16" textLength="359.328">Muestra el día del valor de un campo de tipo fecha</text><text x="30.445" y="145.234" fill="#000" font-size="16" textLength="137.805">DAYNAME(campo)</text><text x="216.25" y="145.234" fill="#000" font-size="16" textLength="364.648">Muestra el nombre del día de la semana del campo</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="181.359">DAYOFWEEK(campo)  </text><text x="216.25" y="165.359" fill="#000" font-size="16" textLength="509.664">Devuelve un número indicando el día de la semana de un campo fecha:</text><text x="211.805" y="185.484" fill="#000" font-size="16">&nbsp;</text><text x="216.25" y="185.484" fill="#000" font-size="16" textLength="570.578" font-style="italic">1=Domingo, 2=Lunes, 3=Martes, 4=Miércoles, 5=Jueves, 6=Viernes, 7=Sábado.</text><text x="786.828" y="185.484" fill="#000" font-size="16">&nbsp;</text><line x1="26" y1="48.125" x2="791.273" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="791.273" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="791.273" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="791.273" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="791.273" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="791.273" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="189" x2="791.273" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="211.805" y1="48.125" x2="211.805" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="791.273" y1="48.125" x2="791.273" y2="189" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src bP7BIiD058RtUOe3BcnZqLwqGcqAmII8cXQi5mfkficf3iwbJ2uBoKBmILowS27ktEPDV18dquWkAkXYc7zcpld-dpd97HLBeWY761SaOsaWHJgbzmYTlcLj7kgdA4K5LEGqeNE6SB7LRRTxqFXuU6nQ0x3j81CHbG8JZO05HhV4g4n0HFXIshOrt0XSptFTKG6ck7mJkXlqAi33959qQIuBgu2PxvurJ6CJ2WWpJ59501cGybLgBeESCAb-EbGwfNetvb1Hmidu_6WjXfkSVwDuxcmj8ovVo7yWOpVqruA4v7E51bKpWH58a1EnCbX1QymakFBzaozG_NjvXYmt0KJvpb59FQgOHaJ44dx1VgSrAGVN0ePqr74yoQcuaIteEgUPdcSBUav8L5gfNIUavREA9AjEUyvnXdcb-iubHMMAzvrf-JGdiTmUxj0H50UV?--></g></svg></p><p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:577px;height:200px;background:#FFFFFF;" width="577px" height="200px" viewBox="0 0 577 200" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="541.102" height="164.875" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="321.883" font-weight="700">Funciones numéricas con varios registros</text><rect x="26" y="48.125" width="521.102" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="93.367">Función   </text><text x="147.805" y="64.734" fill="#000" font-size="16" textLength="83.586">Descripción</text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="73.766">COUNT(*)</text><text x="147.805" y="84.859" fill="#000" font-size="16" textLength="248.133">Cuenta los registros seleccionados</text><text x="30.445" y="104.984" fill="#000" font-size="16" textLength="88.008">MIN(campo)</text><text x="147.805" y="104.984" fill="#000" font-size="16" textLength="391.297">Valor mínimo del campo de los registros seleccionados</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="93.352">MAX(campo)</text><text x="147.805" y="125.109" fill="#000" font-size="16" textLength="394.852">Valor máximo del campo de los registros seleccionados</text><text x="30.445" y="145.234" fill="#000" font-size="16" textLength="94.234">SUM(campo)</text><text x="147.805" y="145.234" fill="#000" font-size="16" textLength="223.227">Suma de los valores del campo</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="112.914">AVG(campo)  </text><text x="147.805" y="165.359" fill="#000" font-size="16" textLength="225.008">Media de los valores del campo</text><line x1="26" y1="48.125" x2="547.102" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="547.102" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="547.102" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="547.102" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="547.102" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="547.102" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="168.875" x2="547.102" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="143.359" y1="48.125" x2="143.359" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="547.102" y1="48.125" x2="547.102" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src bP2zIiH0483xFCM0XRbSSofOg0ZBXOX5pYBciDtRZ3AuFs5t4qHI23w9fOMLZv0tyKdS3Hmd2CeL2xCpytt3Z7iatNBB5JHupplf2wDzHSy8HwT9ShWC9U7H0kcU76qaGZq_NYnE8FrwUPqbPv1bHQS56OqETAV6Tqk2En16Gyyj6GSM7yXvQroM9HS71SjpnYu7cB3nKmSFX3T0ZavOQgVaa0omlAbNjsasWn1sg3q7-TC63YMAE9atuHU9ydgL2gvQ4varbyQ26ZyqAHEsap2LGlI_XztzzhmzxUsfwdBdgJh5jr0VdU5WErjiP-khRVjqa18R-Wiv_mO0?--></g></svg></p><div class="admonition note">
 <p class="admonition-title">Referencias</p>
 <p><a href="https://www.w3schools.com/sql/sql_ref_mysql.asp">MySQL w3schools – Funciones de MySQL</a><br>
 <a href="https://dev.mysql.com/doc/refman/9.7/en/functions.htm">MySQL Oficial – Funciones</a></p>
@@ -1129,6 +1088,83 @@ Mostrar los datos de los empleados que trabajen en oficinas de Madrid.</p>
 <span class="token keyword keyword-FROM">FROM</span> empleados<span class="token punctuation">,</span> oficinas
 <span class="token keyword keyword-WHERE">WHERE</span> empleados<span class="token punctuation">.</span>CodigoOficina <span class="token operator">=</span> oficinas<span class="token punctuation">.</span>CodigoOficina <span class="token operator">AND</span> oficinas<span class="token punctuation">.</span>Ciudad <span class="token operator">=</span> <span class="token string">'Madrid'</span><span class="token punctuation">;</span>
 </code></pre></div>
+<h2 id="transaccionesbloqueos-y-concurrencia">Transacciones,bloqueos y concurrencia </h2>
+<h3 id="transacciones">Transacciones </h3>
+<p>Las bases de datos son fundamentales para la gestión de la información en la mayoría de las aplicaciones informáticas. <strong>Es común que múltiples aplicaciones accedan a la base de datos de manera concurrente</strong>, es decir, que varios procesos realicen operaciones sobre la misma base de datos simultáneamente. En este contexto, <strong>es crucial garantizar la integridad de los datos y la consistencia de la<br>
+información.</strong></p>
+<blockquote>
+<p>Pongamos como ejemplo una aplicación de reserva de plazas para clases en un gimnasio.<br>
+Si dos usuarios intentan reservar la misma plaza al mismo tiempo, el sistema debe garantizar que solo uno de ellos pueda reservar la plaza. Si no se toman medidas, es posible que ambos usuarios reserven la plaza, lo que posiblemente llevaría a un número de reservas superior al número de plazas disponibles.<br>
+En este contexto, las transacciones, bloqueos y concurrencia son fundamentales.</p>
+</blockquote>
+<div class="admonition note">
+<p class="admonition-title">Definición</p>
+<p>Una transacción es una secuencia de operaciones que se tratan como una unidad de trabajo. Esto significa que, todas las operaciones se completan con éxito, o bien ninguna de ellas se aplica.</p>
+</div>
+<p>Imagina que estás haciendo una transferencia bancaria de una cuenta a cuenta a mi cuenta. Esta operación se divide en dos pasos:</p>
+<ul>
+<li>Restar la cantidad transferida del saldo de tu cuenta.</li>
+<li>Sumar la cantidad transferida al saldo de mi cuenta.<br>
+Estos dos pasos forman una transacción. Si ambos pasos se completan con éxito, la transferencia se realiza correctamente. Si uno de los<br>
+pasos falla, la transacción se cancela y se revierten los cambios realizados.</li>
+</ul>
+<p>Una transacción SQL es un conjunto de sentencias SQL que se ejecutan de forma indivisible (atómica), como si fueran una única<br>
+operación. El uso de las transacciones es esencial para mantener la integridad de los datos.<br>
+Los pasos a la hora de realizar una transacción se resumen en:</p>
+<ol>
+<li>Iniciar la transacción</li>
+<li>Realizar las operaciones</li>
+<li>Finalizar la transacción, confirmando los cambios o deshaciéndolos.</li>
+</ol>
+<h4 id="transacciones-en-mariadb">Transacciones en MariaDB </h4>
+<p>MariaDB sólo permite realizar transacciones con el motor de almacenamiento InnoDB.<br>
+Para realizar una transacción:</p>
+<ol>
+<li>Indicar que vamos a realizar una transacción con START TRANSACTION , BEGIN o BEGIN WORK</li>
+<li>Realizar las operaciones de manipulación de datos sobre la base de datos (insertar, actualizar o borrar filas)</li>
+<li>Si las operaciones se han realizado correctamente y queremos que los cambios se apliquen de forma permanente sobre la base de<br>
+datos usaremos la sentencia COMMIT . Sin embargo, si durante las operaciones ocurre algún error y no queremos aplicar los cambios<br>
+realizados podemos deshacerlos con la sentencia ROLLBACK .<br>
+En el siguiente enlace puedes encontrar más información sobre las transacciones en MariaDB: <a href="https://mariadb.com/kb/en/transactions/">https://mariadb.com/kb/en/transactions/</a></li>
+</ol>
+<h4 id="autocommit">Autocommit </h4>
+<p>En MariaDB, por defecto, cada sentencia SQL se ejecuta en una transacción independiente. Esto quiere decir que, si ejecutamos una<br>
+sentencia SQL que modifica la base de datos, los cambios se aplicarán de forma permanente.<br>
+Este comportamiento se conoce como AUTOCOMMIT . Podemos consultar el valor actual de AUTOCOMMIT con la siguiente sentencia SQL:<br>
+SELECT @@AUTOCOMMIT;<br>
+Para desactivarla y poder trabajar con transacciones, hacemos:<br>
+SET AUTOCOMMIT = 0;<br>
+Si ejecutamos la sentencia anterior, tendremos una transacción abierta y los cambios sólo se aplicarán en la BD ejecutando la sentencia<br>
+COMMIT; .<br>
+Para volver a activar el AUTOCOMMIT :<br>
+SET AUTOCOMMIT = 1;</p>
+<p>Ejercicio<br>
+DROP DATABASE IF EXISTS test;<br>
+CREATE DATABASE test CHARACTER SET utf8mb4;<br>
+USE test;<br>
+CREATE TABLE cliente (<br>
+id INT UNSIGNED PRIMARY KEY,<br>
+nombre CHAR (20)<br>
+);<br>
+START TRANSACTION;<br>
+INSERT INTO cliente VALUES (1, 'Pepe');<br>
+COMMIT;<br>
+-- 1. ¿Qué devolverá esta consulta?<br>
+SELECT *<br>
+FROM cliente;</p>
+<p>SET AUTOCOMMIT=0;<br>
+INSERT INTO cliente VALUES (2, 'Maria');<br>
+INSERT INTO cliente VALUES (20, 'Juan');<br>
+DELETE FROM cliente WHERE nombre = 'Pepe';<br>
+-- 2. ¿Qué devolverá esta consulta?<br>
+SELECT *<br>
+FROM cliente;<br>
+ROLLBACK;<br>
+-- 3. ¿Qué devolverá esta consulta?<br>
+SELECT *<br>
+FROM cliente;</p>
+<h3 id="bloqueos">Bloqueos </h3>
+<h3 id="concurrencia">Concurrencia </h3>
 
       </div>
       
