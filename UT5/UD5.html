@@ -340,11 +340,31 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <summary class="md-toc-link-wrapper" data-level="2">
   <a href="#transacciones" class="md-toc-link">Transacciones</a>
 </summary>
-<div class="md-toc-link-wrapper" data-level="3">
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="3">
   <a href="#transacciones-en-mariadb" class="md-toc-link">Transacciones en MariaDB</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="4">
+  <a href="#autocommit" class="md-toc-link">Autocommit</a>
+</div>
+</details>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#transacciones-concurrentes" class="md-toc-link">Transacciones concurrentes</a>
 </div>
 <div class="md-toc-link-wrapper" data-level="3">
-  <a href="#autocommit" class="md-toc-link">Autocommit</a>
+  <a href="#pérdida-de-actualizaciones-lost-updated" class="md-toc-link">Pérdida de actualizaciones (Lost Updated)</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#problema-de-lectura-sucia-dirty-read" class="md-toc-link">Problema de lectura sucia (Dirty Read)</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#problema-lectura-no-repetible-non-repeatable-read" class="md-toc-link">Problema lectura no repetible (Non-Repeatable Read)</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#problema-de-lectura-fantasma-phantom-read" class="md-toc-link">Problema de lectura fantasma (Phantom Read)</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#propiedades-acid-de-la-transacción-ideal" class="md-toc-link">Propiedades ACID de la transacción ideal</a>
 </div>
 </details>
 <div class="md-toc-link-wrapper" data-level="2">
@@ -1127,7 +1147,7 @@ datos usaremos la sentencia <code>COMMIT</code> . Sin embargo, si durante las op
 realizados podemos deshacerlos con la sentencia <code>ROLLBACK</code> .<br>
 En el siguiente enlace puedes encontrar más información sobre las transacciones en MariaDB: <a href="https://mariadb.com/kb/en/transactions/">https://mariadb.com/kb/en/transactions/</a></li>
 </ol>
-<h4 id="autocommit">Autocommit </h4>
+<h5 id="autocommit">Autocommit </h5>
 <p>En MariaDB, por defecto, cada sentencia SQL se ejecuta en una transacción independiente. Esto quiere decir que, si ejecutamos una<br>
 sentencia SQL que modifica la base de datos, los cambios se aplicarán de forma permanente.<br>
 Este comportamiento se conoce como <code>AUTOCOMMIT</code> . Podemos consultar el valor actual de <code>AUTOCOMMIT</code> con la siguiente sentencia SQL:</p>
@@ -1223,6 +1243,139 @@ Para volver a activar el <code>AUTOCOMMIT</code>:</p>
    <span class="token comment">-- Consulta</span>
    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token operator">*</span> <span class="token keyword keyword-FROM">FROM</span> cuentas<span class="token punctuation">;</span>
 </code></pre></div>
+<h4 id="transacciones-concurrentes">Transacciones concurrentes </h4>
+<p>En un entorno de bases de datos, la concurrencia se refiere a la capacidad del sistema para permitir que múltiples usuarios o<br>
+aplicaciones accedan y modifiquen los datos de la base de datos al mismo tiempo.<br>
+Sin los servicios de control de la concurrencia apropiados en un sistema gestor de bases de datos o con la falta de conocimiento sobre<br>
+cómo usar estos servicios de forma adecuada, el <strong>contenido</strong> en la base de datos o los <strong>resultados</strong> de nuestras consultas podrían<br>
+corromperse, y dejar de ser fiables.</p>
+<h4 id="pérdida-de-actualizaciones-lost-updated">Pérdida de actualizaciones (Lost Updated) </h4>
+<p>Dos transacciones leen el mismo dato. Una transacción lo modifica y lo confirma. La segunda transacción, sin haber visto el cambio de la<br>
+primera, también modifica el dato y lo confirma, sobrescribiendo el cambio anterior.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 3</p>
+<p>Vamos a simular un caso de transacciones concurrentes que pueden llevar a una perdidad de actualizaciones.</p>
+<p>Partimos de la siguiente base de datos</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SET">SET</span> AUTOCOMMIT<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-DATABASE">DATABASE</span> <span class="token keyword keyword-IF">IF</span> <span class="token keyword keyword-EXISTS">EXISTS</span> evento<span class="token punctuation">;</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-DATABASE">DATABASE</span> evento<span class="token punctuation">;</span>
+<span class="token keyword keyword-USE">USE</span> evento<span class="token punctuation">;</span>
+
+<span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-TABLE">TABLE</span> <span class="token keyword keyword-IF">IF</span> <span class="token keyword keyword-EXISTS">EXISTS</span> asientos<span class="token punctuation">;</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> asientos <span class="token punctuation">(</span>
+    asiento <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-UNSIGNED">UNSIGNED</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token comment">-- Asiento: número entero positivo</span>
+    estado <span class="token keyword keyword-ENUM">ENUM</span> <span class="token punctuation">(</span><span class="token string">'libre'</span><span class="token punctuation">,</span> <span class="token string">'ocupado'</span><span class="token punctuation">,</span> <span class="token string">'no disponible'</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token comment">-- Estado: solo puede tener uno de los tres valores indicados</span>
+    usuario <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-UNSIGNED">UNSIGNED</span><span class="token punctuation">,</span> <span class="token comment">-- Usuario: número entero positivo (puede ser nulo)</span>
+    <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span> <span class="token punctuation">(</span>asiento<span class="token punctuation">)</span> <span class="token comment">-- Clave primaria para identificar unívocamente cada asiento</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> asientos <span class="token punctuation">(</span>asiento<span class="token punctuation">,</span>estado<span class="token punctuation">)</span> <span class="token keyword keyword-VALUES">VALUES</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>Verifica que tienes activado el AUTOCOMMIT en los scripts de ambos usuarios y realiza las siguientes operaciones:</p>
+<p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:1097px;height:180px;background:#FFFFFF;" width="1097px" height="180px" viewBox="0 0 1097 180" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="1061.219" height="144.75" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16" textLength="325.547">Ejecuta estas sentencias en el orden indicado</text><rect x="26" y="48.125" width="1041.219" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="84.477">Usuario 1 </text><text x="551.055" y="64.734" fill="#000" font-size="16" textLength="84.477">Usuario 2 </text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="350.672">SELECT * FROM asientos WHERE estado='libre'</text><text x="551.055" y="84.859" fill="#000" font-size="16">-</text><text x="30.445" y="104.984" fill="#000" font-size="16">-</text><text x="551.055" y="104.984" fill="#000" font-size="16" textLength="350.672">SELECT * FROM asientos WHERE estado='libre'</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="511.719">UPDATE asientos SET estado='ocupado', usuario=1 WHERE asiento=3</text><text x="551.055" y="125.109" fill="#000" font-size="16">-</text><text x="30.445" y="145.234" fill="#000" font-size="16">-</text><text x="551.055" y="145.234" fill="#000" font-size="16" textLength="511.719">UPDATE asientos SET estado='ocupado', usuario=2 WHERE asiento=3</text><line x1="26" y1="48.125" x2="1067.219" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="1067.219" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="1067.219" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="1067.219" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="1067.219" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="1067.219" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="546.609" y1="48.125" x2="546.609" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="1067.219" y1="48.125" x2="1067.219" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src bOv1IyD048Nl-oiUU8XQXIO53zO8eTdWGL6Q1C_RpGYZSRTaTpr83eB_r5_YrXQBUEfbUCEyzxrnBspMQb2lwEX9XTvNrlYQtmdfXH398fwqfm5itjZngYUqasmwdU7uw-FpH5pAPzB1Av3poi6HyMGqHqa6rCCENHHiEjQgi-Bgg2hAiYYkHxGkg84jqiZPRzbc4oDgUIiN3KvHBU_le1n7i7Lul95B-TFLsJpfUJLGWX7ds6JYF2mNC-r3MJHoRwnbyskpEgoZICuGjj_bwGwqi-UpFzs7iRB_hFat?--></g></svg></p><p><strong>Consecuencia</strong>: La actualización de la primera transacción se pierde, lo que puede llevar a inconsistencias en los datos.</p>
+</div>
+<p>Si introducimos transacciones para evitar las condiciones de perdida de actualizaciones, aparecen otro tipo de problemas:</p>
+<ul>
+<li>Problema de lectura sucia.</li>
+<li>Problema de lectura no repetible.</li>
+<li>Problema de lectura fantasma.</li>
+</ul>
+<h4 id="problema-de-lectura-sucia-dirty-read">Problema de lectura sucia (Dirty Read) </h4>
+<p>Una transacción lee un dato modificado por otra transacción que aún no ha confirmado sus cambios. Si la transacción que ha modificado<br>
+el dato se revierte, la transacción que ha leído el dato modificado tendrá información incorrecta.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Usuario 1 (Transacción A)</strong></th>
+<th><strong>Usuario 2 (Transacción B)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>¿Cuál es el balance actual?</td>
+<td>Sacaré 500€</td>
+</tr>
+<tr>
+<td></td>
+<td>(1) Leer cuenta x</td>
+</tr>
+<tr>
+<td></td>
+<td>(2) balance = balance - 500</td>
+</tr>
+<tr>
+<td></td>
+<td>(3) Actualizar balance cuenta x</td>
+</tr>
+<tr>
+<td>(4) Leer el balance de la cuenta x</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>ROLLBACK</td>
+</tr>
+</tbody>
+</table>
+<p>La anomalía de lectura sucia significa que la transacción acepta el riesgo de leer datos no fiables (no confirmados) que podrían cambiar o actualizarse con datos que podrían ser deshechos (ROLLBACK). Este tipo de transacción no debe hacer ninguna actualización en la base de datos ya que podría llevar a datos corruptos. De hecho, cualquier uso de datos sin confirmar es arriesgado y puede llevar a decisiones o acciones incorrectas.</p>
+<h4 id="problema-lectura-no-repetible-non-repeatable-read">Problema lectura no repetible (Non-Repeatable Read) </h4>
+<p>Se produce cuando en una transacción se consulta el mismo dato dos veces, y la segunda vez encuentra que el valor del dato ha sido modificado por otra transacción.<br>
+Supongamos una aplicación web de reserva de asientos para un concierto de música. Hay dos usuarios que inician la reserva del mismo asiento. El usuario 1 consulta el estado de los asientos y comprueba que el asiento 33 está libre. Mientras tanto, el usuario 2 reserva el<br>
+asiento 33, y cuando el usuario 1 intenta reservar el asiento 33, se encuentra con que ya no está disponible.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Usuario 1 (Transacción A)</strong></th>
+<th><strong>Usuario 2 (Transacción B)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SELECT estado FROM asientos WHERE num=33;</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>UPDATE asientos SET estado ='ocupado' WHERE num=33;</td>
+</tr>
+<tr>
+<td>SELECT estado FROM asientos WHERE num=33;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="problema-de-lectura-fantasma-phantom-read">Problema de lectura fantasma (Phantom Read) </h4>
+<p>Se trata de una variación de lecturas no repetibles. Este error ocurre cuando una transacción ejecuta dos veces una consulta que devuelve un conjunto de filas y en la segunda ejecución de la consulta aparecen/desaparecen nuevas filas en el conjunto que no existían cuando se inició lo transacción.<br>
+Supongamos que el usuario 1 comprueba los asientos disponibles. A la vez, el administrador de la aplicación elimina el asiento 33 ya que se ha roto y no debe aparecer entre los asientos existentes. Cuando el usuario 1 vuelve a comprobar los asientos existentes, comprueba su estado y el asiento no aparece, cuando antes sí (de ahí que sea una lectura fantasma).</p>
+<table>
+<thead>
+<tr>
+<th><strong>Usuario 1 (Transacción A)</strong></th>
+<th><strong>Usuario 2 (Transacción B)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SELECT num FROM asientos WHERE estado='libre';</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>DELETE FROM asientos WHERE num =33; COMMIT;</td>
+</tr>
+<tr>
+<td>SELECT num FROM asientos WHERE 'estado ='libre';</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="propiedades-acid-de-la-transacción-ideal">Propiedades ACID de la transacción ideal </h4>
+<p>Todo SGBD que se considera transaccional debe cumplir con las propiedades ACID:<br>
+Atomicidad: La transacción es indivisible. Esto quiere decir, que o se ejecutan todas la sentencias o no lo hará ninguna.</p>
+<ul>
+<li><strong>Consistencia</strong>: Después de una transacción, la base de datos estará en un estado válido y consistente.</li>
+<li><strong>Aislamiento</strong> (Isolation): Cada transacción está aislada del resto de transacciones y el acceso a los datos se hace de forma exclusiva. Si una transacción quiere acceder de forma concurrente a los datos que están siendo utilizados por otra transacción, no podrá hacerlo hasta que la primera haya terminado.</li>
+<li><strong>Durabilidad</strong>: Los cambios que realiza una transacción sobre la base de datos son permanentes.</li>
+</ul>
 <h3 id="bloqueos">Bloqueos </h3>
 <h3 id="concurrencia">Concurrencia </h3>
 
