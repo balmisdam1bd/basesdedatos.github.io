@@ -334,7 +334,7 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 </details>
 <details open="" class="md-toc-details">
 <summary class="md-toc-link-wrapper" data-level="1">
-  <a href="#transaccionesbloqueos-y-concurrencia" class="md-toc-link">Transacciones,bloqueos y concurrencia</a>
+  <a href="#transacciones-y-bloqueos" class="md-toc-link">Transacciones y bloqueos</a>
 </summary>
 <details open="" class="md-toc-details">
 <summary class="md-toc-link-wrapper" data-level="2">
@@ -366,14 +366,56 @@ code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-fami
 <div class="md-toc-link-wrapper" data-level="3">
   <a href="#propiedades-acid-de-la-transacción-ideal" class="md-toc-link">Propiedades ACID de la transacción ideal</a>
 </div>
+<div class="md-toc-link-wrapper" data-level="3">
+  <a href="#niveles-de-aislamiento" class="md-toc-link">Niveles de aislamiento</a>
+</div>
 </details>
-<div class="md-toc-link-wrapper" data-level="2">
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="2">
   <a href="#bloqueos" class="md-toc-link">Bloqueos</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="4">
+  <a href="#casos-de-uso-de-bloqueos-compartidos" class="md-toc-link">Casos de uso de bloqueos compartidos</a>
 </div>
-<div class="md-toc-link-wrapper" data-level="2">
-  <a href="#concurrencia" class="md-toc-link">Concurrencia</a>
+<div class="md-toc-link-wrapper" data-level="4">
+  <a href="#casos-de-uso-de-bloqueos-exclusivos" class="md-toc-link">Casos de uso de bloqueos exclusivos</a>
+</div>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="3">
+  <a href="#niveles-de-bloqueo" class="md-toc-link">Niveles de bloqueo</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="4">
+  <a href="#bloqueo-exclusivo-a-nivel-de-fila" class="md-toc-link">Bloqueo exclusivo a nivel de fila</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="4">
+  <a href="#bloqueo-compartido-a-nivel-de-fila" class="md-toc-link">Bloqueo compartido a nivel de fila</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="4">
+  <a href="#bloqueo-compartido-a-nivel-de-tabla" class="md-toc-link">Bloqueo compartido a nivel de tabla</a>
 </div>
 </details>
+</details>
+</details>
+<details open="" class="md-toc-details">
+<summary class="md-toc-link-wrapper" data-level="1">
+  <a href="#usuarios-y-privilegios" class="md-toc-link">Usuarios y privilegios</a>
+</summary>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#creación-de-usuarios-sql" class="md-toc-link">Creación de usuarios SQL</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#asignación-de-privilegios" class="md-toc-link">Asignación de privilegios</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#eliminar-permisos" class="md-toc-link">Eliminar permisos</a>
+</div>
+<div class="md-toc-link-wrapper" data-level="2">
+  <a href="#creación-de-roles" class="md-toc-link">Creación de roles</a>
+</div>
+</details>
+<div class="md-toc-link-wrapper" data-level="1">
+  <a href="#optimización-de-consultas" class="md-toc-link">Optimización de consultas</a>
+</div>
 </details>
 </div>
 <h2 id="lenguaje-de-manipulación-de-datos">Lenguaje de Manipulación de Datos </h2>
@@ -1108,7 +1150,7 @@ Mostrar los datos de los empleados que trabajen en oficinas de Madrid.</p>
 <span class="token keyword keyword-FROM">FROM</span> empleados<span class="token punctuation">,</span> oficinas
 <span class="token keyword keyword-WHERE">WHERE</span> empleados<span class="token punctuation">.</span>CodigoOficina <span class="token operator">=</span> oficinas<span class="token punctuation">.</span>CodigoOficina <span class="token operator">AND</span> oficinas<span class="token punctuation">.</span>Ciudad <span class="token operator">=</span> <span class="token string">'Madrid'</span><span class="token punctuation">;</span>
 </code></pre></div>
-<h2 id="transaccionesbloqueos-y-concurrencia">Transacciones,bloqueos y concurrencia </h2>
+<h2 id="transacciones-y-bloqueos">Transacciones y bloqueos </h2>
 <h3 id="transacciones">Transacciones </h3>
 <p>Las bases de datos son fundamentales para la gestión de la información en la mayoría de las aplicaciones informáticas. <strong>Es común que múltiples aplicaciones accedan a la base de datos de manera concurrente</strong>, es decir, que varios procesos realicen operaciones sobre la misma base de datos simultáneamente. En este contexto, <strong>es crucial garantizar la integridad de los datos y la consistencia de la<br>
 información.</strong></p>
@@ -1376,8 +1418,205 @@ Atomicidad: La transacción es indivisible. Esto quiere decir, que o se ejecutan
 <li><strong>Aislamiento</strong> (Isolation): Cada transacción está aislada del resto de transacciones y el acceso a los datos se hace de forma exclusiva. Si una transacción quiere acceder de forma concurrente a los datos que están siendo utilizados por otra transacción, no podrá hacerlo hasta que la primera haya terminado.</li>
 <li><strong>Durabilidad</strong>: Los cambios que realiza una transacción sobre la base de datos son permanentes.</li>
 </ul>
+<h4 id="niveles-de-aislamiento">Niveles de aislamiento </h4>
+<p>Para evitar que sucedan los problemas de acceso concurrente que hemos comentado en el punto anterior podemos establecer diferentes niveles de aislamiento que controlan el nivel de bloqueo durante el acceso a los datos. El estándar ANSI/ISO de SQL (SQL92) define cuatro niveles de aislamiento:</p>
+<ul>
+<li><strong>READ UNCOMMITTED</strong> (lectura no confirmada/no acometida/no comprometida): Es el nivel de aislamiento más bajo. Permite que una transacción lea datos que han sido modificados por otra transacción pero que aún no han sido confirmados. Esto puede llevar a problemas de lectura sucia, lectura no repetible y lectura fantasma.</li>
+<li><strong>READ COMMITTED</strong>: En este nivel de aislamiento, una transacción no puede leer datos que han sido modificados por otra transacción y que aún no han sido confirmados. Sin embargo, una transacción puede leer datos que han sido modificados y confirmados por otra transacción.</li>
+<li><strong>REPEATABLE READ</strong>: En este nivel de aislamiento, una transacción no puede leer datos que han sido modificados por otra transacción y que aún no han sido confirmados. Además, una transacción no puede modificar datos que han sido leídos por otra transacción y que aún no han sido confirmados.</li>
+<li><strong>SERIALIZABLE</strong>: Es el nivel de aislamiento más alto. En este nivel, una transacción no puede leer datos que han sido modificados por otra transacción y que aún no han sido confirmados. Además, una transacción no puede modificar datos que han sido leídos por otra transacción y que aún no han sido confirmados</li>
+</ul>
 <h3 id="bloqueos">Bloqueos </h3>
-<h3 id="concurrencia">Concurrencia </h3>
+<p>Cuando un SGBD aísla las transacciones de usuario, utiliza los bloqueos para restringir el acceso de otros usuarios a dichos datos.<br>
+Los bloqueos pueden ser Compartidos o Exclusivos. Para entener la diferencia entre ambos bloqueos vamos a exponer algunos casos de uso.</p>
+<h5 id="casos-de-uso-de-bloqueos-compartidos">Casos de uso de bloqueos compartidos </h5>
+<ul>
+<li><strong>Generación de informes</strong>. Al generar un informe que requiere leer datos de varias tablas, se puede usar un bloqueo compartido para garantizar que los datos no cambien durante la generación del informe, evitando así inconsistencias en los resultados.</li>
+<li><strong>Control de acceso concurrente</strong>: En aplicaciones donde varios usuarios pueden acceder a los mismos datos, se pueden usar bloqueos compartidos para permitir la lectura concurrente de los datos, pero evitar modificaciones simultáneas que podrían generar inconsistencias.</li>
+</ul>
+<h5 id="casos-de-uso-de-bloqueos-exclusivos">Casos de uso de bloqueos exclusivos </h5>
+<ul>
+<li><strong>Transferencia bancaria</strong>. Al transferir dinero entre dos cuentas, se necesita un bloqueo exclusivo en ambas cuentas para evitar que otras transacciones modifiquen los saldos de forma simultánea. De lo contrario, se podrían producir inconsistencias en los saldos.</li>
+<li><strong>Actualización de inventario</strong>. Al actualizar el inventario de una tienda, se necesita un bloqueo exclusivo en los productos afectados para evitar que otros usuarios realicen ventas o modificaciones en el inventario al mismo tiempo.</li>
+</ul>
+<p>En resumen:</p>
+<ul>
+<li><strong>Bloqueos exclusivos</strong>: Se usan cuando se necesita modificar datos y se quiere evitar que otras transacciones accedan a ellos mientras se realizan las modificaciones.</li>
+<li><strong>Bloqueos compartidos</strong>: Se usan cuando se necesita leer datos y se quiere evitar que otras transacciones los modifiquen mientras se están leyendo, pero se permite que otras transacciones lean los mismos datos.</li>
+</ul>
+<h4 id="niveles-de-bloqueo">Niveles de bloqueo </h4>
+<p>Los bloqueos se pueden realizar a diferentes niveles:</p>
+<ul>
+<li><strong>Nivel de fila</strong>: Bloquea únicamente las filas específicas que una transacción necesita modificar, permitiendo que otras transacciones accedan a otras filas de la misma tabla.</li>
+<li><strong>Nivel de tabla</strong>: Bloquea toda la tabla, impidiendo que otras transacciones la modifiquen mientras la transacción actual la esté utilizando.</li>
+</ul>
+<p>Los bloqueos explicitos pueden utilizarse en cualquier nivel de aislamiento. Sin embargo, su uso es más común en los niveles de aislamiento más bajos, donde el control de concurrencia es menos estricto.<br>
+Los bloqueos quedán liberados cuando se realiza un <code>COMMIT</code> o un <code>ROLLBACK</code> de la transacción.</p>
+<h5 id="bloqueo-exclusivo-a-nivel-de-fila">Bloqueo exclusivo a nivel de fila </h5>
+<p>En MariaDB, la gestión explícita de bloqueos de filas se realiza principalmente a través de la cláusula  <code>FOR UPDATE</code> en las sentencias <code>SELECT</code> . Esta cláusula permite a una transacción adquirir bloqueos exclusivos sobre las filas seleccionadas, asegurando que ninguna otra transacción pueda modificarlas hasta que la transacción actual libere los bloqueos.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 4</p>
+<p>Vamos a simular que una transacción de un usuario 1 inicia el proceso de compra de un asiento para un evento. Para ello, inicialmente va a proceder a la lectura de los asientos libres, posteriormente y una vez que el usuario 1 ha elegido el asiento lo bloqueará de manera compartida hasta que finalice el proceso de compra, y así ningún otro usuario pueda comprar el mismo asiento.</p>
+<p>Partimos de la siguiente base de datos</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-TABLE">TABLE</span> <span class="token keyword keyword-IF">IF</span> <span class="token keyword keyword-EXISTS">EXISTS</span> asientos<span class="token punctuation">;</span>
+    <span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-TABLE">TABLE</span> asientos <span class="token punctuation">(</span>
+    asiento <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-UNSIGNED">UNSIGNED</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token comment">-- Asiento: número entero positivo</span>
+    estado <span class="token keyword keyword-ENUM">ENUM</span> <span class="token punctuation">(</span><span class="token string">'libre'</span><span class="token punctuation">,</span> <span class="token string">'ocupado'</span><span class="token punctuation">,</span> <span class="token string">'no disponible'</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span> <span class="token comment">-- Estado: solo puede</span>
+    usuario <span class="token keyword keyword-INT">INT</span> <span class="token keyword keyword-UNSIGNED">UNSIGNED</span><span class="token punctuation">,</span> <span class="token comment">-- Usuario: número entero positivo (puede ser nulo)</span>
+    <span class="token keyword keyword-PRIMARY">PRIMARY</span> <span class="token keyword keyword-KEY">KEY</span> <span class="token punctuation">(</span>asiento<span class="token punctuation">)</span> <span class="token comment">-- Clave primaria para identificar unívocamente cada asient</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-INSERT">INSERT</span> <span class="token keyword keyword-INTO">INTO</span> asientos <span class="token punctuation">(</span>asiento<span class="token punctuation">,</span>estado<span class="token punctuation">)</span> <span class="token keyword keyword-VALUES">VALUES</span>
+    <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token string">'libre'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre><p>Usuario 1 inicia el proceso de compra de un asiento</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-SET">SET</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span> <span class="token keyword keyword-ISOLATION">ISOLATION</span> <span class="token keyword keyword-LEVEL">LEVEL</span> <span class="token keyword keyword-READ">READ</span> <span class="token keyword keyword-COMMITTED">COMMITTED</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-START">START</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span><span class="token punctuation">;</span>        
+    <span class="token comment">-- En este punto el usuario 1 consulta todos los asientos libres</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token operator">*</span> <span class="token keyword keyword-FROM">FROM</span> asientos <span class="token keyword keyword-WHERE">WHERE</span> estado<span class="token operator">=</span><span class="token string">'libre'</span><span class="token punctuation">;</span>
+    <span class="token comment">-- El usuario 1 elige el asiento 2 y lo bloquea para iniciar el proceso de compra</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token operator">*</span> <span class="token keyword keyword-FROM">FROM</span> asientos <span class="token keyword keyword-WHERE">WHERE</span> estado<span class="token operator">=</span><span class="token string">'libre'</span> <span class="token operator">AND</span> asiento<span class="token operator">=</span><span class="token number">2</span> <span class="token keyword keyword-FOR">FOR</span> <span class="token keyword keyword-UPDATE">UPDATE</span><span class="token punctuation">;</span>
+</code></pre><p>Usuario 2 inicia también el proceso de compra de un asiento</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-SET">SET</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span> <span class="token keyword keyword-ISOLATION">ISOLATION</span> <span class="token keyword keyword-LEVEL">LEVEL</span> <span class="token keyword keyword-READ">READ</span> <span class="token keyword keyword-COMMITTED">COMMITTED</span><span class="token punctuation">;</span>
+
+    <span class="token keyword keyword-START">START</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span><span class="token punctuation">;</span>
+
+    <span class="token comment">-- El usuario2 puede consultar el estado de los asientos</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token operator">*</span> <span class="token keyword keyword-FROM">FROM</span> asientos <span class="token keyword keyword-WHERE">WHERE</span> estado<span class="token operator">=</span><span class="token string">'libre'</span><span class="token punctuation">;</span>
+    <span class="token comment">-- Pero no puede modificar el asiento 2</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token operator">*</span> <span class="token keyword keyword-FROM">FROM</span> asientos <span class="token keyword keyword-WHERE">WHERE</span> estado<span class="token operator">=</span><span class="token string">'libre'</span> <span class="token operator">AND</span> asiento<span class="token operator">=</span><span class="token number">2</span> <span class="token keyword keyword-FOR">FOR</span> <span class="token keyword keyword-UPDATE">UPDATE</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-UPDATE">UPDATE</span> asientos <span class="token keyword keyword-SET">SET</span> estado<span class="token operator">=</span><span class="token string">'ocupado'</span><span class="token punctuation">,</span> usuario<span class="token operator">=</span><span class="token string">'2'</span> <span class="token keyword keyword-WHERE">WHERE</span> asiento<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
+
+    <span class="token comment">-- Sin embargo si puedo modificar el asiento 3.</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token operator">*</span> <span class="token keyword keyword-FROM">FROM</span> asientos <span class="token keyword keyword-WHERE">WHERE</span> estado<span class="token operator">=</span><span class="token string">'libre'</span> <span class="token operator">AND</span> asiento<span class="token operator">=</span><span class="token number">3</span> <span class="token keyword keyword-FOR">FOR</span> <span class="token keyword keyword-UPDATE">UPDATE</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-UPDATE">UPDATE</span> asientos <span class="token keyword keyword-SET">SET</span> estado<span class="token operator">=</span><span class="token string">'ocupado'</span><span class="token punctuation">,</span> usuario<span class="token operator">=</span><span class="token string">'2'</span> <span class="token keyword keyword-WHERE">WHERE</span> asiento<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">;</span>
+</code></pre><p>Si el usuario 1 confirma o deshace la transacción libera el bloqueo.</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-UPDATE">UPDATE</span> asientos <span class="token keyword keyword-SET">SET</span> estado<span class="token operator">=</span><span class="token string">'ocupado'</span><span class="token punctuation">,</span> usuario<span class="token operator">=</span><span class="token string">'1'</span> <span class="token keyword keyword-WHERE">WHERE</span> asiento<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-COMMIT">COMMIT</span><span class="token punctuation">;</span>
+</code></pre><p>El usuario 2 finaliza</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-COMMIT">COMMIT</span><span class="token punctuation">;</span>
+</code></pre><p>La transacción del usuario 2 se bloqueará hasta que el usuario 1 libere el bloqueo con un <code>COMMIT</code> o <code>ROLLBACK</code>;</p>
+</div>
+<h5 id="bloqueo-compartido-a-nivel-de-fila">Bloqueo compartido a nivel de fila </h5>
+<p>Cuando un usuario ejecuta una consulta SELECT para obtener detalles de un producto específico, MariaDB puede otorgar un bloqueo compartido a nivel de fila sobre ese registro en particular. Esto permite que otros usuarios también lean la misma fila sin ningún<br>
+problema.</p>
+<p>La forma más común de "configurar" un bloqueo compartido a nivel de fila es a través de la cláusula <code>LOCK IN SHARE MODE</code> en una sentencia <code>SELECT</code> .</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 5</p>
+<p>Vamos a simular que el gestor de una compañia de aviación quiere saber los asientos libres y ocupados de los vuelos de la compañia. Para ello, durante el tiempo que tarda en generar el informe bloqueará de manera compartida los asientos de los vuelos, y así ningún otro usuario puede modificar los asientos.</p>
+<p>Partimos de la siguiente base de datos</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-SET">SET</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span> <span class="token keyword keyword-ISOLATION">ISOLATION</span> <span class="token keyword keyword-LEVEL">LEVEL</span> <span class="token keyword keyword-READ">READ</span> <span class="token keyword keyword-COMMITTED">COMMITTED</span><span class="token punctuation">;</span>
+    <span class="token keyword keyword-START">START</span> <span class="token keyword keyword-TRANSACTION">TRANSACTION</span><span class="token punctuation">;</span>
+
+    <span class="token comment">-- En este punto el usuario 1 consulta todos los asientos libres</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword keyword-FROM">FROM</span> asientos <span class="token keyword keyword-WHERE">WHERE</span> estado<span class="token operator">=</span><span class="token string">'libre'</span> <span class="token keyword keyword-LOCK">LOCK</span> <span class="token operator">IN</span> <span class="token keyword keyword-SHARE">SHARE</span> <span class="token keyword keyword-MODE">MODE</span><span class="token punctuation">;</span>
+</code></pre></div>
+<h5 id="bloqueo-compartido-a-nivel-de-tabla">Bloqueo compartido a nivel de tabla </h5>
+<p>Los bloqueos explícitos a nivel de tabla permiten a los usuarios controlar manualmente el acceso a una tabla completa, impidiendo que otras transacciones realicen modificaciones no deseadas.<br>
+Esto es especialmente útil en situaciones donde se requiere una alta consistencia de los datos, como durante la ejecución de tareas complejas o la realización de modificaciones masivas.</p>
+<p><strong>No es recomendable usar bloqueos a nivel de tabla a menos que sea absolutamente necesario</strong>, ya que pueden causar cuellos de botella y reducir significativamente la concurrencia en la base de datos.</p>
+<h2 id="usuarios-y-privilegios">Usuarios y privilegios </h2>
+<p>La gestión de usuarios es una tarea esencial en la gestión de entornos de bases de datos. Al asiginar cuentas de usuario únicas, puedes controlar el acceso a diferentes partes de la base de datos, asegurando que cada usuario tenga los privilegios apropiados. Este<br>
+proceso mejora la seguridad y ayuda a organizar el acceoso entre diferentes aplicaciones o usuarios. Se puede administrar las cuentas de usuario con la declaración <code>CREATE USER</code> y <code>DROP USER</code> , y asignar privilegios con <code>GRANT</code> y <code>REVOKE</code> .</p>
+<p>MariaDB almacena <strong>información del usuario</strong> en sus tablas de sistema (base de datos mysql) en la tabla <strong>mysql.global_priv</strong>.</p>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 5</p>
+<p>Podemos acceder a la información de los usuarios con las siguientes consultas:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-USE">USE</span> mysql<span class="token punctuation">;</span>
+    <span class="token keyword keyword-SELECT">SELECT</span> <span class="token keyword keyword-user">user</span><span class="token punctuation">,</span> host <span class="token keyword keyword-FROM">FROM</span> global_priv<span class="token punctuation">;</span>
+</code></pre><p align="center" style="zoom:1" class="puml"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" data-diagram-type="ACTIVITY" style="width:282px;height:261px;background:#FFFFFF;" width="282px" height="261px" viewBox="0 0 282 261" zoomAndPan="magnify" preserveAspectRatio="none" contentstyletype="text/css"><!--?plantuml 1.2026.9?--><defs></defs><g font-family="sans-serif" lengthAdjust="spacing"><rect x="16" y="16" width="246.766" height="225.25" fill="#F1F1F1" style="stroke:#181818;stroke-width:0.5;" rx="12.5" ry="12.5"></rect><text x="26" y="42.609" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="42.609" fill="#000" font-size="16" textLength="68.469" font-weight="700">Usuarios</text><rect x="26" y="48.125" width="226.766" height="20.125" fill="#FADDAA" style="stroke:none;"></rect><text x="30.445" y="64.734" fill="#000" font-size="16" textLength="47.125">user </text><text x="125.586" y="64.734" fill="#000" font-size="16" textLength="46.242">host </text><text x="30.445" y="84.859" fill="#000" font-size="16" textLength="57.797">PUBLIC</text><text x="121.141" y="84.859" fill="#000" font-size="16">&nbsp;</text><text x="30.445" y="104.984" fill="#000" font-size="16" textLength="27.57">root</text><text x="125.586" y="104.984" fill="#000" font-size="16" textLength="66.727">127.0.0.1</text><text x="30.445" y="125.109" fill="#000" font-size="16" textLength="27.57">root</text><text x="125.586" y="125.109" fill="#000" font-size="16" textLength="17.789">::1</text><text x="26" y="145.234" fill="#000" font-size="16">&nbsp;</text><text x="125.586" y="145.234" fill="#000" font-size="16" textLength="122.734">desktop-shptuam</text><text x="30.445" y="165.359" fill="#000" font-size="16" textLength="27.57">root</text><text x="125.586" y="165.359" fill="#000" font-size="16" textLength="122.734">desktop-shptuam</text><text x="26" y="185.484" fill="#000" font-size="16">&nbsp;</text><text x="125.586" y="185.484" fill="#000" font-size="16" textLength="63.148">localhost</text><text x="30.445" y="205.609" fill="#000" font-size="16" textLength="86.25">mariadb.sys</text><text x="125.586" y="205.609" fill="#000" font-size="16" textLength="63.148">localhost</text><text x="30.445" y="225.734" fill="#000" font-size="16" textLength="27.57">root</text><text x="125.586" y="225.734" fill="#000" font-size="16" textLength="63.148">localhost</text><line x1="26" y1="48.125" x2="252.766" y2="48.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="68.25" x2="252.766" y2="68.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="88.375" x2="252.766" y2="88.375" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="108.5" x2="252.766" y2="108.5" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="128.625" x2="252.766" y2="128.625" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="148.75" x2="252.766" y2="148.75" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="168.875" x2="252.766" y2="168.875" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="189" x2="252.766" y2="189" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="209.125" x2="252.766" y2="209.125" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="229.25" x2="252.766" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="26" y1="48.125" x2="26" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="121.141" y1="48.125" x2="121.141" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><line x1="252.766" y1="48.125" x2="252.766" y2="229.25" style="stroke:#000;stroke-width:0.5;"></line><!--?plantuml-src AyxEp2j8B4hCLKX9JKiipIbnoyyh2SwiIbKmDEFYibBGqWejBaqioimlrjBYib5sStHnSNIqgr4eBKujUjJGNAEGaLzS0c9mrIW4X3hvU3ehr2Y0E4Nv-IL0fg6HkPu141eY2rfPGRWrG4kBiqlo2tIBCmfAIe6EG5A4JQf68IS_EJ47P2UOdmjqMM9AabvnPJ667DGO945h0000?--></g></svg></p><p>La columna <em>Host</em> indica desde qué equipo puede conectarse un usuario al servidor MariaDB. En este caso, encontramos:</p>
+<ul>
+<li><em>root</em>: aparece cuatro veces porque tiene permitido conectarse desde distintos orígenes: <code>localhost</code>, <code>127.0.0.1</code> (dirección IPv4 local), <code>::1</code> (dirección IPv6 local) y <code>desktop-shptuam</code> (nombre del equipo).</li>
+<li><em>mariadb.sys</em>: es una cuenta interna de MariaDB, bloqueada para el inicio de sesión.</li>
+<li><em>Usuarios anónimos</em>: son los registros que tienen el campo User vacío. Están asociados a <code>localhost</code> y <code>desktop-shptuam</code>.</li>
+<li><em>PUBLIC</em>: es un rol especial de MariaDB que representa los privilegios públicos.</li>
+</ul>
+<p>En MariaDB, cada cuenta se identifica mediante la combinación de User y Host, por lo que un mismo usuario puede aparecer varias veces.</p>
+<p>El símbolo <code>%</code> funciona como comodín en la columna Host y permite indicar cualquier origen de conexión, aunque en este ejemplo no aparece ninguna cuenta que lo utilice.</p>
+</div>
+<h3 id="creación-de-usuarios-sql">Creación de usuarios SQL </h3>
+<p>Para crear un nuevo usuario se realiza con la sentencia <code>CREATE USER</code> , mediante la sintaxis:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-USER">USER</span> nombre_usuario IDENTIFIED <span class="token keyword keyword-BY">BY</span> <span class="token string">'contraseña'</span><span class="token punctuation">;</span>
+</code></pre><p>Al indicar la contraseña, esta se encriptará con un <em>hash</em>. El hash es irreversible, lo que significa que no se puede recuperar la contraseña original a partir de él.</p>
+<p>Además, en MariaDB, podemos especificar el host desde donde se permite la conexión:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- En esta sentencia estamos indicando que el usuario solo se puede conectar desde la propia máquina donde está instalado el servidor MariaDB.</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-USER">USER</span> <span class="token string">'nombre_usuario'</span><span class="token variable">@'localhost'</span> IDENTIFIED <span class="token keyword keyword-BY">BY</span> <span class="token string">'contraseña'</span><span class="token punctuation">;</span>
+</code></pre><p>Si necesitamos <strong>cambiar la contraseña o actualizar las propiedades</strong> de un usuario existente, utilizaremos la instrucción <code>ALTER USER</code>:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-ALTER">ALTER</span> <span class="token keyword keyword-USER">USER</span> nombre_usuario IDENTIFIED <span class="token keyword keyword-BY">BY</span> <span class="token string">'nueva_contraseña'</span><span class="token punctuation">;</span>
+</code></pre><p>Finalmente, para eliminar usuarios utilizaremos la sentencia <code>DROP USER</code>:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-USER">USER</span> nombre_usuario<span class="token punctuation">;</span>
+</code></pre><h3 id="asignación-de-privilegios">Asignación de privilegios </h3>
+<p>Al administrar usuarios, es crítico asignar correctamente privilegios basados en su rol. Los privilegios determinan qué acciones pueden realizar los usuarios, como consultar datos o modificar bases de datos. Crear una cuenta separada para cada tarea asegura una estructura clara en su base de datos. Con acceso administrativo, puede crear, modificar y eliminar las cuentas de usuario según sea necesario.</p>
+<p>La instrucción <code>GRANT</code> permite asignar permisos específicos a usuarios o roles, como la<br>
+capacidad de consultar (<code>SELECT</code>), insertar (<code>INSERT</code>), actualizar (<code>UPDATE</code>) o eliminar<br>
+(<code>DELETE</code>) datos en tablas o vistas. También se pueden otorgar privilegios sobre<br>
+procedimientos almacenados o esquemas completos.</p>
+<p>La sintaxis de GRANT es la siguiente:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-GRANT">GRANT</span> privilegio1<span class="token punctuation">,</span> privilegio2<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token keyword keyword-ON">ON</span> nombre_base_datos<span class="token punctuation">.</span>nombre_tabla <span class="token keyword keyword-TO">TO</span> <span class="token string">'nombre_usuario'</span><span class="token variable">@'host'</span><span class="token punctuation">;</span>
+</code></pre><p>Los privilegios más comunes (los cuales podemos consultar con el comando <code>SHOW PRIVILEGES</code>) son:</p>
+<ul>
+<li><code>USAGE</code>: para usar un objeto específico de la base de datos.</li>
+<li><code>SELECT</code>: para acceder a tablas o vistas.</li>
+<li><code>INSERT</code>: Si se especifica el nombre_columna, se otorga permiso para insertar en la columna especificada. Si se omite entonces se permite insertar valores en todas las columnas.</li>
+<li><code>UPDATE</code>: Lo mismo que INSERT para modificar.</li>
+<li><code>DELETE</code>: para eliminar registros de una tabla o vista.</li>
+<li><code>WITH GRANT OPTION</code>: permite dar permisos a otro usuario.</li>
+<li><code>ALL PRIVILEGES</code>: otorga todos los permisos menos GRANT OPTION</li>
+</ul>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 6</p>
+<p>Podemos acceder a la información de los usuarios con las siguientes consultas:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    <span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-DATABASE">DATABASE</span> BalmisBD<span class="token punctuation">;</span>
+    <span class="token keyword keyword-GRANT">GRANT</span> <span class="token keyword keyword-ALL">ALL</span> <span class="token keyword keyword-PRIVILEGES">PRIVILEGES</span> <span class="token keyword keyword-ON">ON</span> BalmisBD<span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword keyword-TO">TO</span> <span class="token string">'uBalmis'</span><span class="token punctuation">;</span>
+</code></pre><p>Con los comandos anteriores, hemos creado una base de datos llamada BalmisBD y hemos otorgado todos los permisos al usuario uBalmis sobre BalmisBD.<br>
+Después de los comandos anteriores habrá que ejecutar el siguiente comando para refrescar todos los privilegios a los usuarios:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code>    FLUSH <span class="token keyword keyword-PRIVILEGES">PRIVILEGES</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 7</p>
+<p>En este ejemplo vamos a crear la base de datos prestashop y el usuario <code>user@localhost</code>, y le vamos a asignar al usuario los permisos de <code>SELECT</code> , <code>INSERT</code> , <code>UPDATE</code> y <code>DELETE</code>.</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Creamos la base de datos</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-DATABASE">DATABASE</span> prestashop<span class="token punctuation">;</span>
+
+<span class="token comment">-- Creamos el usuario y le asignamos los permisos</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-USER">USER</span> <span class="token keyword keyword-user">user</span><span class="token variable">@localhost</span> IDENTIFIED <span class="token keyword keyword-BY">BY</span> <span class="token string">'passwd'</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-GRANT">GRANT</span> <span class="token keyword keyword-SELECT">SELECT</span><span class="token punctuation">,</span> <span class="token keyword keyword-INSERT">INSERT</span><span class="token punctuation">,</span> <span class="token keyword keyword-UPDATE">UPDATE</span><span class="token punctuation">,</span> <span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-ON">ON</span> prestashop<span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword keyword-TO">TO</span> <span class="token keyword keyword-user">user</span><span class="token variable">@localhost</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Refrescamos los privilegios si queremos que se apliquen los cambios inmediatamente</span>
+FLUSH <span class="token keyword keyword-PRIVILEGES">PRIVILEGES</span><span class="token punctuation">;</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 8</p>
+<p>En este ejemplo vamos a utilizar la opción <code>WITH GRAN OPTION</code> para que el usuario <code>user@localhost</code> pueda asignar permisos a otros usuarios.</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Creamos la base de datos</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-DATABASE">DATABASE</span> prestashop<span class="token punctuation">;</span>
+
+<span class="token comment">-- Creamos el usuario y le asignamos los permisos</span>
+<span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-USER">USER</span> <span class="token keyword keyword-IF">IF</span> <span class="token keyword keyword-EXISTS">EXISTS</span> <span class="token keyword keyword-user">user</span><span class="token variable">@localhost</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-USER">USER</span> <span class="token keyword keyword-user">user</span><span class="token variable">@localhost</span> IDENTIFIED <span class="token keyword keyword-BY">BY</span> <span class="token string">'passwd'</span><span class="token punctuation">;</span>
+<span class="token keyword keyword-GRANT">GRANT</span> <span class="token keyword keyword-SELECT">SELECT</span><span class="token punctuation">,</span> <span class="token keyword keyword-INSERT">INSERT</span><span class="token punctuation">,</span> <span class="token keyword keyword-UPDATE">UPDATE</span><span class="token punctuation">,</span> <span class="token keyword keyword-DELETE">DELETE</span> <span class="token keyword keyword-ON">ON</span> prestashop<span class="token punctuation">.</span><span class="token operator">*</span>
+   <span class="token keyword keyword-TO">TO</span> <span class="token keyword keyword-user">user</span><span class="token variable">@localhost</span> <span class="token keyword keyword-WITH">WITH</span> <span class="token keyword keyword-GRANT">GRANT</span> <span class="token keyword keyword-OPTION">OPTION</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Refrescamos los privilegios si queremos que se apliquen los cambios inmediatamente</span>
+FLUSH <span class="token keyword keyword-PRIVILEGES">PRIVILEGES</span><span class="token punctuation">;</span>
+</code></pre><p>Como el usuario <code>'user'@'localhost'</code> tiene la opción <code>WITH GRANT OPTION</code> y tiene todos los permisos (<code>ALL PRIVILEGES</code>) sobre todas las tablas de base de datos prestashop , podrá asignar asignar estos mismos permisos a otros usuarios sobre las mismas tablas de la base de datos <code>prestashop</code>.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Ejemplo 9</p>
+<p>En el siguiente ejemplo el usuario <code>user@localhost</code> sólo podrá asignar a otros usuarios el permiso de <code>SELECT</code> sobre la tabla <code>customer</code> de la base de datos <code>prestashop</code> .</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token comment">-- Eliminamos el usuario si ya existe</span>
+<span class="token keyword keyword-DROP">DROP</span> <span class="token keyword keyword-USER">USER</span> <span class="token keyword keyword-IF">IF</span> <span class="token keyword keyword-EXISTS">EXISTS</span> <span class="token string">'user'</span><span class="token variable">@'localhost'</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Creamos el usuario</span>
+<span class="token keyword keyword-CREATE">CREATE</span> <span class="token keyword keyword-USER">USER</span> <span class="token string">'user'</span><span class="token variable">@'localhost'</span> IDENTIFIED <span class="token keyword keyword-BY">BY</span> <span class="token string">'passwd'</span><span class="token punctuation">;</span>
+
+<span class="token comment">-- Concedemos el permiso SELECT sobre la tabla customery permitimos que pueda otorgarlo a otros usuarios</span>
+<span class="token keyword keyword-GRANT">GRANT</span> <span class="token keyword keyword-SELECT">SELECT</span> <span class="token keyword keyword-ON">ON</span> prestashop<span class="token punctuation">.</span>customer <span class="token keyword keyword-TO">TO</span> <span class="token string">'user'</span><span class="token variable">@'localhost'</span> <span class="token keyword keyword-WITH">WITH</span> <span class="token keyword keyword-GRANT">GRANT</span> <span class="token keyword keyword-OPTION">OPTION</span><span class="token punctuation">;</span>
+</code></pre></div>
+<p>Por último, para saber los permisos del usuario actual, podemos ejecutar <code>SHOW GRANTS FOR 'nombre_usuario'[@host]</code>. Si queremos saber los permisos del usuario actual, podemos ejecutar:</p>
+<pre data-role="codeBlock" data-info="sql" class="language-sql sql"><code><span class="token keyword keyword-SHOW">SHOW</span> GRANTS <span class="token keyword keyword-FOR">FOR</span> <span class="token keyword keyword-CURRENT_USER">CURRENT_USER</span><span class="token punctuation">;</span>
+</code></pre><h3 id="eliminar-permisos">Eliminar permisos </h3>
+<h3 id="creación-de-roles">Creación de roles </h3>
+<h2 id="optimización-de-consultas">Optimización de consultas </h2>
 
       </div>
       
